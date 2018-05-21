@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { JarwisService } from '../../service/jarwis.service';
+import {TokenService} from "../../service/token.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-signup',
@@ -7,8 +10,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
-
+  public form = {
+    name: null,
+    email: null,
+    password: null,
+    password_confirmation: null
+  };
+  public error = [];
+  constructor(
+    private Jarwis: JarwisService,
+    private Token: TokenService,
+    private router: Router
+    ) { }
+  onSubmit() {
+     this.Jarwis.signup(this.form).subscribe(
+        data => this.handleResponse(data),
+        error => this.handleError(error)
+      );
+  }
+  handleError(error) {
+    this.error = error.error.errors;
+  }
+  handleResponse(data) {
+    this.Token.handle(data.access_token);
+    this.router.navigateByUrl('/profile');
+  }
   ngOnInit() {
   }
 

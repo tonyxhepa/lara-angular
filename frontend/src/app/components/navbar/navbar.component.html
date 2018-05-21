@@ -2,8 +2,9 @@
 <nav class="navbar navbar-light bg-light">
   <a class="navbar-brand">Navbar</a>
   <div class="pull-right">
-<a href="#" class="navbar-brand">Login</a>
-<a href="#" class="navbar-brand">Profile</a>
+<a routerLink="login" class="navbar-brand" *ngIf="!loggedIn">Login</a>
+    <a href="" (click)="logout($event)" class="navbar-brand" *ngIf="loggedIn">Logout</a>
+<a routerLink="profile" class="navbar-brand" *ngIf="loggedIn">Profile</a>
   </div>
 
 </nav>
